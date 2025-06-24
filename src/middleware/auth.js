@@ -12,3 +12,14 @@ export const requireAuth = (req, res, next) => {
     res.status(401).json({ error: "Invalid token" });
   }
 };
+
+export const requireUser = (req, res, next) => {
+  if (!req.user) return res.status(401).json({ error: "unauthorized" });
+  next();
+};
+
+export const requireAdmin = (req, res, next) => {
+  if (req.user.role != "ADMIN")
+    return res.status(403).json({ error: "Admin access only" });
+  next();
+};

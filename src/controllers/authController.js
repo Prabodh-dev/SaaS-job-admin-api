@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client/extension";
-import { hashPassword, comparePassword } from "../utils/hash";
-import { createToken } from "../utils/hash";
+import { PrismaClient } from "@prisma/client";
+import { hashPassword, comparePassword } from "../utils/hash.js";
+import { createToken } from "../utils/jwt.js";
 
 const prisma = new PrismaClient();
 
@@ -15,7 +15,7 @@ export const register = async (req, res) => {
   });
   const token = createToken(user);
   res.json({
-    user: { id: user.id, email: user.email, role: user.role },
+    user: { id: user.id, namw: user.name, email: user.email, role: user.role },
     token,
   });
 };
@@ -28,7 +28,7 @@ export const login = async (req, res) => {
   if (!match) return res.status(400).json({ error: "Invalid credentials" });
   const token = createToken(user);
   res.json({
-    user: { id: user.id, email: user.email, role: user.role },
+    user: { id: user.id, name: user.name, email: user.email, role: user.role },
     token,
   });
 };
